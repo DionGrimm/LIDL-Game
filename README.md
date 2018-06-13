@@ -1,2 +1,2 @@
 # LIDL-Game
-Game for programming 4 course
+Game for programming course #4
