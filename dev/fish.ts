@@ -27,7 +27,7 @@ class Fish extends GameObject {
     }
 
     hCollision():boolean {
-        if (this.x < 0 || this.x > this.game.canvas.width-this.width) {
+        if (this.x+this.hspeed < 0 || this.x+this.hspeed > this.game.canvas.width-this.width) {
             return true
         } else {
             return false
@@ -35,7 +35,7 @@ class Fish extends GameObject {
     }
 
     vCollision():boolean {
-        if (this.y < 0 || this.y > this.game.canvas.height-this.height) {
+        if (this.y+this.vspeed < 0 || this.y+this.vspeed > this.game.canvas.height-this.height) {
             return true
         } else {
             return false
@@ -44,7 +44,6 @@ class Fish extends GameObject {
 
     // Random movement function
     move():void {
-        this.x += this.hspeed
-        this.y += this.vspeed
+
     }
 }
