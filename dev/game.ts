@@ -16,7 +16,7 @@ class Game {
         this.player1 = new Player(this,1,87,83,65,68,32)
         this.player2 = new Player(this,2,38,40,37,39,16)
 
-        for (let i=0; i<5+Math.floor(Math.random()*10); i++) {
+        for (let i=0; i<12+Math.floor(Math.random()*10); i++) {
             this.pepe.push(new Pepe(this))
         }
 
@@ -45,7 +45,7 @@ class Game {
     public onKeyPress(e:KeyboardEvent) {
         this.player1.keyPress(e)
         this.player2.keyPress(e)
-        if (e.keyCode == 66 && this.biemCD == 0) {
+        if (e.keyCode == 66 && this.biemCD == 0 && this.pepe.length > 0) {
             // Biem
             this.biemCD = 180
             let i = Math.floor(Math.random()*this.pepe.length)

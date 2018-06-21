@@ -100,7 +100,7 @@ var Game = (function () {
         this.music.play();
         this.player1 = new Player(this, 1, 87, 83, 65, 68, 32);
         this.player2 = new Player(this, 2, 38, 40, 37, 39, 16);
-        for (var i = 0; i < 5 + Math.floor(Math.random() * 10); i++) {
+        for (var i = 0; i < 12 + Math.floor(Math.random() * 10); i++) {
             this.pepe.push(new Pepe(this));
         }
         window.addEventListener("keydown", function (e) { return _this.onKeyPress(e); });
@@ -110,7 +110,7 @@ var Game = (function () {
     Game.prototype.onKeyPress = function (e) {
         this.player1.keyPress(e);
         this.player2.keyPress(e);
-        if (e.keyCode == 66 && this.biemCD == 0) {
+        if (e.keyCode == 66 && this.biemCD == 0 && this.pepe.length > 0) {
             this.biemCD = 180;
             var i = Math.floor(Math.random() * this.pepe.length);
             this.biem.push(new Biem(this, this.pepe[i].x, this.pepe[i].y));
@@ -262,6 +262,12 @@ var Pepe = (function (_super) {
         }
         else {
             this.y_input = 1;
+        }
+        if (this.x_input == -1) {
+            this.sprite = this.spriteLeft;
+        }
+        else if (this.x_input == 1) {
+            this.sprite = this.spriteRight;
         }
         if (this.x_input != 0 && this.y_input != 0) {
             diagonal = true;

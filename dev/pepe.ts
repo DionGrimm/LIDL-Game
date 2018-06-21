@@ -69,6 +69,12 @@ class Pepe extends GameObject {
             this.y_input = 1
         }
 
+        if (this.x_input == -1) {
+            this.sprite = this.spriteLeft
+        } else if (this.x_input == 1) {
+            this.sprite = this.spriteRight
+        }
+
         if (this.x_input != 0 && this.y_input != 0) {
             diagonal = true
         } else {
