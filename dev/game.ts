@@ -1,36 +1,63 @@
 class Game {
 
-    public canvas:HTMLCanvasElement = <HTMLCanvasElement>document.getElementById('cnvs')
-    public ctx:CanvasRenderingContext2D = this.canvas.getContext("2d")!
-    public player1:player
-    public player2:player
-    public fish:Array<Fish> = [];
+    public master:Master
+    public player1:Player
+    public player2:Player
+    public pepe:Array<Pepe> = [];
+    private biem:Array<Biem> = [];
+    private biemCD:number = 100
 
-    constructor() {
-        this.canvas.width = window.innerWidth-30
-        this.canvas.height = window.innerHeight-30
+    private music:HTMLAudioElement = <HTMLAudioElement>document.getElementById('music')
 
-        this.player1 = new player(this,87,83,65,68)
-        this.player2 = new player(this,38,40,37,39)
+    constructor(master:Master) {
+        this.master = master
+        this.music.play()
+
+        this.player1 = new Player(this,1,87,83,65,68,32)
+        this.player2 = new Player(this,2,38,40,37,39,16)
 
         for (let i=0; i<5+Math.floor(Math.random()*10); i++) {
-            this.fish.push(new Fish(this))
+            this.pepe.push(new Pepe(this))
         }
+
+        window.addEventListener("keydown", (e:KeyboardEvent) => this.onKeyPress(e))
+        window.addEventListener("keyup", (e:KeyboardEvent) => this.onKeyRelease(e))
 
         requestAnimationFrame(this.update)
     }
 
     update = ():void => {
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-
+        for (const i in this.biem) {
+            this.biem[i].update()
+        }
         this.player1.update()
         this.player2.update()
-        for (const i in this.fish) {
-            this.fish[i].update()
+
+        for (const i in this.pepe) {
+            this.pepe[i].update()
         }
 
-        requestAnimationFrame(this.update)
+        if (this.biemCD > 0) {
+            this.biemCD--
+        }
     }
+
+    public onKeyPress(e:KeyboardEvent) {
+        this.player1.keyPress(e)
+        this.player2.keyPress(e)
+        if (e.keyCode == 66 && this.biemCD == 0) {
+            // Biem
+            this.biemCD = 180
+            let i = Math.floor(Math.random()*this.pepe.length)
+            this.biem.push(new Biem(this,this.pepe[i].x, this.pepe[i].y))
+            this.pepe.splice(i,1)
+        }
+    }
+
+    public onKeyRelease(e:KeyboardEvent) {
+        this.player1.keyRelease(e)
+        this.player2.keyRelease(e)
+    }
+
 }
 
-window.addEventListener("load", () => new Game())
